@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const sessionToken = request.cookies.get('session_token')?.value
   
   // Define protected routes
-  const protectedRoutes = ['/dashboard']
+  const protectedRoutes = ['/dashboard', '/admin', '/players']
   const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route))
 
   // Define auth routes (redirect to dashboard if already logged in)

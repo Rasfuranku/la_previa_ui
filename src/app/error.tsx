@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Error({
   error,
@@ -27,9 +28,11 @@ export default function Error({
         <Button onClick={() => reset()} size="lg">
           Try again
         </Button>
-        <Button variant="outline" size="lg" asChild>
-          <a href="/">Go to Home</a>
-        </Button>
+        <Link href="/">
+          <Button variant="ghost" size="lg">
+            Go to Home
+          </Button>
+        </Link>
       </div>
     </div>
   );
