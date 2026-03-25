@@ -28,7 +28,12 @@ export async function getMeAction(): Promise<ActionResponse<UserResponse>> {
       cache: 'no-store',
     });
 
-    if (!res.ok) return { error: "Failed to fetch user data" };
+    if (!res.ok) {
+        if (res.status === 401) return { error: "Session expired" };
+        const errorData = await res.json().catch(() => ({}));
+        return { error: errorData.detail || "Failed to fetch user data" };
+    }
+
     const data = await res.json();
     return { data, success: true };
   } catch (err) {

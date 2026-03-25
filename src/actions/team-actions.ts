@@ -20,8 +20,8 @@ export async function getTeamFanaticAction(fanId: number): Promise<ActionRespons
     });
 
     if (!res.ok) {
-        if (res.status === 404) return { error: "Team fanatic not found" };
-        return { error: "Failed to fetch team" };
+        if (res.status === 404) return { error: "Team not found" };
+        return { error: "Failed to fetch team data" };
     }
     const data = await res.json();
     return { data, success: true };
@@ -46,6 +46,7 @@ export async function createTeamFanaticAction(data: TeamFanaticCreateInput): Pro
         const errorData = await res.json().catch(() => ({}));
         return { error: errorData.detail || "Failed to create team" };
     }
+
     const result = await res.json();
     return { data: result, success: true };
   } catch (err) {

@@ -28,11 +28,11 @@ export default function Error({
         <Button onClick={() => reset()} size="lg">
           Try again
         </Button>
-        <Link href="/">
-          <Button variant="ghost" size="lg">
+        <a href="/">
+          <Button variant="glass" size="lg">
             Go to Home
           </Button>
-        </Link>
+        </a>
       </div>
     </div>
   );

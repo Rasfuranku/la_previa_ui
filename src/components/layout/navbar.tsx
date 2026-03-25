@@ -6,6 +6,7 @@ import { logoutAction } from "@/actions/auth-actions";
 
 const NAV_LINKS = [
   { label: "Dashboard", href: "/dashboard", protected: true },
+  { label: "Team", href: "/team", protected: true },
   { label: "Players", href: "/players", protected: true },
   { label: "Admin", href: "/admin", protected: true },
   { label: "Leagues", href: "/leagues" },

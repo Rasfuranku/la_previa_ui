@@ -54,6 +54,29 @@ export async function getPlayerAction(playerId: number): Promise<ActionResponse<
   }
 }
 
+export async function addPlayerToTeamAction(data: PlayerUpdateInput): Promise<ActionResponse<PlayerResponse>> {
+  const API_URL = getApiUrl();
+  if (!API_URL) return { error: "System configuration error" };
+
+  try {
+    const res = await fetch(`${API_URL}/players/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        return { error: errorData.detail || "Add player operation failed" };
+    }
+    const result = await res.json();
+    return { data: result, success: true };
+  } catch (err) {
+    return { error: "Service unavailable" };
+  }
+}
+
 export async function transferPlayerAction(playerId: number, data: PlayerUpdateInput): Promise<ActionResponse<PlayerResponse>> {
   const API_URL = getApiUrl();
   if (!API_URL) return { error: "System configuration error" };
