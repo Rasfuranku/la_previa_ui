@@ -17,7 +17,7 @@ export function AnimatedHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-xs font-medium text-primary mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-md text-xs font-medium text-primary mb-6">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -25,14 +25,14 @@ export function AnimatedHero() {
             Season 2026 Live
           </div>
 
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] text-white mb-6">
-            THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">RITUAL</span> <br />
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] text-white mb-6 uppercase italic">
+            THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary">RITUAL</span> <br />
             BEGINS.
           </h1>
           
           <p className="text-lg md:text-xl text-muted max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-            La Previa bridges the gap between street passion and high-end tech. 
-            Build your squad, challenge friends, and own the pitch.
+            La Previa bridges the gap between street passion and professional fantasy sports. 
+            Build your legacy, dominate the league, and own the pitch.
           </p>
         </motion.div>
 
@@ -87,9 +87,11 @@ export function AnimatedHero() {
           style={{ transformStyle: "preserve-3d", transform: "rotateY(-12deg) rotateX(5deg)" }}
         >
            {/* Decorative Elements behind */}
-           <div className="absolute -inset-4 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-[2rem] blur-xl -z-10" />
+           <div className="absolute -inset-4 bg-gradient-to-tr from-primary/10 via-accent/5 to-stripe-blue/10 rounded-[2rem] blur-xl -z-10" />
            
-           <div className="bg-[#050505] border border-white/10 rounded-2xl p-4 shadow-2xl">
+           <div className="bg-[#050505] border border-primary/10 rounded-2xl p-4 shadow-2xl relative overflow-hidden">
+              {/* Subtle stripe accent at the top */}
+              <div className="absolute top-0 left-0 right-0 h-1 stripe-gradient opacity-50" />
               <BentoGrid />
            </div>
         </div>

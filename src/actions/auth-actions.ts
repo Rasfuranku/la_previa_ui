@@ -118,3 +118,9 @@ export async function registerAction(data: RegisterInput): Promise<ActionRespons
     return { error: "Service unavailable" };
   }
 }
+
+export async function logoutAction(): Promise<ActionResponse> {
+  const cookieStore = await cookies();
+  cookieStore.delete('session_token');
+  return { success: true };
+}

@@ -1,23 +1,30 @@
-import { PlayerResponse } from "./player.schema";
+import { z } from "zod";
+import { PlayerResponseSchema } from "./player.schema";
 
-export interface TeamFanaticResponse {
-  id: number;
-  team_name: string;
-  badge: string | null;
-  fan_id: number;
-  is_active: boolean;
-  players: PlayerResponse[];
-}
+export const TeamFanaticCreateSchema = z.object({
+  fan_id: z.number(),
+  team_name: z.string().optional(),
+  badge: z.string().optional(),
+});
 
-export interface TeamFanaticCreateInput {
-  fan_id: number;
-  team_name?: string;
-  badge?: string | null;
-}
+export type TeamFanaticCreateInput = z.infer<typeof TeamFanaticCreateSchema>;
 
-export interface TeamFanaticUpdateInput {
-  id: number;
-  fan_id: number;
-  team_name?: string;
-  badge?: string | null;
-}
+export const TeamFanaticResponseSchema = z.object({
+  id: z.number(),
+  team_name: z.string(),
+  badge: z.string().nullable().optional(),
+  fan_id: z.number(),
+  is_active: z.boolean(),
+  players: z.array(PlayerResponseSchema).default([]),
+});
+
+export type TeamFanaticResponse = z.infer<typeof TeamFanaticResponseSchema>;
+
+export const TeamFanaticUpdateSchema = z.object({
+  id: z.number(),
+  fan_id: z.number(),
+  team_name: z.string().optional(),
+  badge: z.string().optional(),
+});
+
+export type TeamFanaticUpdateInput = z.infer<typeof TeamFanaticUpdateSchema>;

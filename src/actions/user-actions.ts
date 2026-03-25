@@ -23,7 +23,7 @@ export async function getMeAction(): Promise<ActionResponse<UserResponse>> {
   try {
     const res = await fetch(`${API_URL}/users/me`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
       },
       cache: 'no-store',
     });
@@ -33,7 +33,7 @@ export async function getMeAction(): Promise<ActionResponse<UserResponse>> {
         const errorData = await res.json().catch(() => ({}));
         return { error: errorData.detail || "Failed to fetch user data" };
     }
-    
+
     const data = await res.json();
     return { data, success: true };
   } catch (err) {
