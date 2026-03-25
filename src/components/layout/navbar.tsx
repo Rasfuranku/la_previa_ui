@@ -3,13 +3,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const NAV_LINKS = [
-<<<<<<< Updated upstream
-=======
   { label: "Dashboard", href: "/dashboard", protected: true },
   { label: "Team", href: "/team", protected: true },
   { label: "Players", href: "/players", protected: true },
   { label: "Admin", href: "/admin", protected: true },
->>>>>>> Stashed changes
   { label: "Leagues", href: "/leagues" },
   { label: "Matches", href: "/matches" },
   { label: "Stats", href: "/stats" },

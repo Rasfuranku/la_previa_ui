@@ -14,3 +14,12 @@ export const RegisterSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;
+
+export interface UserResponse {
+  id: number;
+  email: string;
+  full_name: string | null;
+  is_active: boolean;
+  is_superuser: boolean;
+  provider: string;
+}

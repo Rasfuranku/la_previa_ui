@@ -27,9 +27,11 @@ export default function Error({
         <Button onClick={() => reset()} size="lg">
           Try again
         </Button>
-        <Button variant="outline" size="lg" asChild>
-          <a href="/">Go to Home</a>
-        </Button>
+        <a href="/">
+          <Button variant="glass" size="lg">
+            Go to Home
+          </Button>
+        </a>
       </div>
     </div>
   );
