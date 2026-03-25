@@ -15,7 +15,7 @@ export const RegisterSchema = z.object({
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 
-export const UserResponse = z.object({
+export const UserResponseSchema = z.object({
   id: z.number(),
   email: z.string().email(),
   full_name: z.string().nullable().optional(),
