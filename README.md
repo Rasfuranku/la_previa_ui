@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# La Previa - UI Client
+
+The official frontend for the La Previa LATAM Fantasy Football League, built with [Next.js](https://nextjs.org), TailwindCSS, and Playwright.
 
 ## Getting Started
 
-First, run the development server:
+1. **Install Dependencies**
+   Ensure you're using `npm` and Node 18+:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Configure Environment**
+   Set up your local `.env.local` to point to the backend API:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:8000
+   ```
+
+3. **Start the Development Server**
+   ```bash
+   npm run dev
+   ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **React / Next.js Framework**: Uses Server Components and Server Actions inside `actions/` to securely fetch data without exposing API keys.
+- **Styling**: Tailored luxurious branding powered natively via `globals.css` and Tailwind classes mimicking the dark, metallic texture of `/public/logo.png`.
+- **Interactivity**: Dynamic squad building components rendering the "Pitch" and bench limits efficiently.
 
-## Learn More
+## Testing Requirements (End-to-End)
 
-To learn more about Next.js, take a look at the following resources:
+We enforce cross-browser testing of critical frontend flows (like ensuring squad transfers correctly block at 15 players or when games lock).
+To run all End-to-End browser assertions via Playwright:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx playwright test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To display a detailed trace viewer of the test runs:
+```bash
+npx playwright show-report
+```

@@ -40,8 +40,8 @@ export function TeamField({ players, onAddPlayer, onRemovePlayer }: TeamFieldPro
                     </div>
                 )
             ) : (
-                <div className="w-full h-full bg-black/40 border-2 border-dashed border-white/10 rounded-t-lg flex items-center justify-center">
-                    <Plus className="w-6 h-6 text-white/20 group-hover:text-primary transition-colors" />
+                <div className="w-full h-full bg-black/40 border-2 border-dashed border-primary/30 rounded-t-lg flex items-center justify-center group-hover:bg-black/60 group-hover:border-primary/60 transition-all">
+                    <Plus className="w-6 h-6 text-white/20 group-hover:text-primary transition-colors duration-300" />
                 </div>
             )}
         </div>
@@ -51,7 +51,7 @@ export function TeamField({ players, onAddPlayer, onRemovePlayer }: TeamFieldPro
             <div className="w-full bg-white text-black text-[8px] md:text-[10px] font-bold py-0.5 text-center shadow-md">
                 {player ? player.last_name.toUpperCase() : label}
             </div>
-            <div className={`w-full text-white text-[7px] md:text-[9px] font-bold py-0.5 text-center shadow-md ${player ? 'bg-primary' : 'bg-gray-800'}`}>
+            <div className={`w-full text-white text-[7px] md:text-[9px] font-bold py-0.5 text-center shadow-md ${player ? 'stripe-gradient bg-opacity-90' : 'bg-surface-highlight'}`}>
                 {player ? `$${(player.price / 1000000).toFixed(1)}M` : '-'}
             </div>
         </div>
@@ -62,18 +62,18 @@ export function TeamField({ players, onAddPlayer, onRemovePlayer }: TeamFieldPro
   return (
     <div className="space-y-8">
       {/* Pitch Area */}
-      <div className="relative w-full min-h-[500px] md:min-h-[600px] bg-[#022c22] rounded-[40px] overflow-hidden border-8 border-white/5 shadow-2xl flex flex-col p-4">
+      <div className="relative w-full min-h-[500px] md:min-h-[600px] bg-background rounded-[40px] overflow-hidden border-8 border-primary/20 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(212,175,55,0.05)] flex flex-col p-4">
         
         {/* Tactical View Container with Perspective */}
         <div className="absolute inset-0 flex flex-col" style={{ perspective: '1000px' }}>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#064e3b] to-[#022c22]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-surface/80 to-background" />
           
-          {/* Pitch Markings */}
-          <div className="absolute inset-x-8 top-0 h-full border-x-2 border-white/10 pointer-events-none" />
-          <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 border-t-2 border-white/10 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-2 border-white/10 rounded-full pointer-events-none" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 border-2 border-t-0 border-white/10 pointer-events-none" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-40 border-2 border-b-0 border-white/10 pointer-events-none" />
+          {/* Pitch Markings in Subtle Gold */}
+          <div className="absolute inset-x-8 top-0 h-full border-x-2 border-primary/20 pointer-events-none" />
+          <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 border-t-2 border-primary/20 pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-2 border-primary/20 rounded-full pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 border-2 border-t-0 border-primary/20 pointer-events-none" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-40 border-2 border-b-0 border-primary/20 pointer-events-none" />
           
           {/* Players Pitch Grid */}
           <div 
@@ -115,10 +115,12 @@ export function TeamField({ players, onAddPlayer, onRemovePlayer }: TeamFieldPro
       </div>
 
       {/* Bench / Substitutes Area */}
-      <div className="bg-white/5 border border-white/10 rounded-[30px] p-6 backdrop-blur-md">
+      <div className="glass-panel rounded-[30px] p-6 relative overflow-hidden">
+        {/* Subtle background glow from logo colors */}
+        <div className="absolute top-0 left-0 w-full h-1 stripe-gradient opacity-60"></div>
         <div className="flex items-center justify-between mb-6">
-            <h3 className="text-sm font-bold text-white uppercase tracking-widest px-2">Substitutes</h3>
-            <div className="h-px flex-1 mx-4 bg-gradient-to-r from-white/10 to-transparent" />
+            <h3 className="text-sm font-bold text-primary uppercase tracking-widest px-2 drop-shadow-lg">Substitutes</h3>
+            <div className="h-px flex-1 mx-4 bg-gradient-to-r from-primary/30 to-transparent" />
         </div>
         
         <div className="flex justify-center gap-4 md:gap-12">
