@@ -11,6 +11,8 @@ export const PlayerResponseSchema = z.object({
   weight: z.number(),
   height: z.number(),
   current_team: z.string(),
+  current_team_id: z.number(),
+  current_team_name: z.string().nullable().optional(),
   price: z.number(),
   form: z.number(),
   picture: z.string().nullable().optional(),
@@ -22,6 +24,7 @@ export const PlayerResponseSchema = z.object({
   tiktok: z.string().nullable().optional(),
   medical_status: z.string().nullable().optional(),
   active: z.boolean(),
+  total_points: z.number().default(0),
 });
 
 export type PlayerResponse = z.infer<typeof PlayerResponseSchema>;

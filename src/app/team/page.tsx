@@ -10,8 +10,11 @@ import { PlayerResponse } from '@/lib/schemas/player.schema';
 import { Loader2, Plus, LayoutDashboard, Search, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TeamSidebar } from '@/components/team/team-sidebar';
+import { GameWeekHeader } from '@/components/team/game-week-header';
 import { TeamField } from '@/components/team/team-field';
 import { PlayerSelector } from '@/components/team/player-selector';
+import { PlayerMenuCard } from '@/components/team/player-menu-card';
+import { AlertModal } from '@/components/ui/alert-modal';
 
 export default function TeamPage() {
   const [user, setUser] = useState<UserResponse | null>(null);
@@ -20,8 +23,12 @@ export default function TeamPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [newTeamName, setNewTeamName] = useState('');
+  const [favoriteTeam, setFavoriteTeam] = useState('');
+  const [nationality, setNationality] = useState('');
   const [creating, setCreating] = useState(false);
   const [showPlayerSelector, setShowPlayerSelector] = useState<number | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerResponse | null>(null);
+  const [alertConfig, setAlertConfig] = useState<{isOpen: boolean, message: string}>({ isOpen: false, message: "" });
 
   useEffect(() => {
     async function loadData() {
@@ -55,7 +62,12 @@ export default function TeamPage() {
   async function handleCreateTeam() {
     if (!user || !newTeamName) return;
     setCreating(true);
-    const res = await createTeamFanaticAction({ fan_id: user.id, team_name: newTeamName });
+    const res = await createTeamFanaticAction({ 
+      fan_id: user.id, 
+      team_name: newTeamName,
+      favorite_team: favoriteTeam,
+      nationality: nationality
+    });
     if (res.data) {
       setTeam(res.data);
     } else {
@@ -76,7 +88,7 @@ export default function TeamPage() {
         setPlayers([...players, res.data]);
         setShowPlayerSelector(null);
     } else {
-        alert(res.error || "Failed to add player");
+        setAlertConfig({ isOpen: true, message: res.error || "Failed to add player" });
     }
   }
 
@@ -91,7 +103,7 @@ export default function TeamPage() {
     if (res.success) {
         setPlayers(players.filter(p => p.id !== playerId));
     } else {
-        alert(res.error || "Failed to remove player");
+        setAlertConfig({ isOpen: true, message: res.error || "Failed to remove player" });
     }
   }
 
@@ -125,24 +137,49 @@ export default function TeamPage() {
                 Squad Management
             </div>
             ) : (
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white/5 p-6 rounded-2xl border border-white/10">
-                <div className="space-y-1">
-                <h2 className="text-lg font-bold text-white">New Manager</h2>
-                <p className="text-sm text-muted">Enter your team name to join the league.</p>
+            <div className="flex flex-col items-start gap-6 bg-white/5 p-8 rounded-3xl border border-white/10 w-full max-w-2xl">
+                <div className="space-y-2">
+                  <h2 className="text-2xl font-bold text-white">Join the Pitch</h2>
+                  <p className="text-sm text-muted">Complete your profile to start competing in the ritual.</p>
                 </div>
-                <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-                <input 
-                    type="text" 
-                    placeholder="Ex: Boca Juniors Fanatic" 
-                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 flex-1 sm:w-64"
-                    value={newTeamName}
-                    onChange={(e) => setNewTeamName(e.target.value)}
-                />
-                <Button onClick={handleCreateTeam} disabled={creating} className="gap-2">
-                    {creating ? <Loader2 className="animate-spin w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted px-1">Team Name</label>
+                    <input 
+                        type="text" 
+                        placeholder="Ex: Boca Juniors Fanatic" 
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        value={newTeamName}
+                        onChange={(e) => setNewTeamName(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted px-1">Nationality</label>
+                    <input 
+                        type="text" 
+                        placeholder="Ex: Argentina" 
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        value={nationality}
+                        onChange={(e) => setNationality(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted px-1">Favorite National/League Team</label>
+                    <input 
+                        type="text" 
+                        placeholder="Ex: Real Madrid" 
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        value={favoriteTeam}
+                        onChange={(e) => setFavoriteTeam(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <Button onClick={handleCreateTeam} disabled={creating || !newTeamName || !nationality || !favoriteTeam} className="w-full gap-2" size="lg">
+                    {creating ? <Loader2 className="animate-spin w-5 h-5" /> : <Plus className="w-5 h-5" />}
                     Create Team
                 </Button>
-                </div>
             </div>
             )}
         </div>
@@ -165,10 +202,20 @@ export default function TeamPage() {
                 <TeamSidebar team={team} players={players} />
               </div>
               <div className="lg:col-span-3 space-y-8">
+                <GameWeekHeader 
+                    weekNumber={12} 
+                    latestPoints={85} 
+                    averagePoints={56} 
+                    highestPoints={112} 
+                    weekRank={453} 
+                    totalTransfers={3} 
+                    onPrevWeek={() => {}}
+                    onNextWeek={() => {}}
+                />
                 <TeamField 
                     players={players} 
                     onAddPlayer={(posId) => setShowPlayerSelector(posId)} 
-                    onRemovePlayer={handleRemovePlayer}
+                    onPlayerClick={setSelectedPlayer}
                 />
               </div>
           </div>
@@ -181,6 +228,21 @@ export default function TeamPage() {
             onClose={() => setShowPlayerSelector(null)} 
           />
       )}
+
+      {selectedPlayer !== null && (
+          <PlayerMenuCard 
+            player={selectedPlayer}
+            onClose={() => setSelectedPlayer(null)}
+            onRemove={handleRemovePlayer}
+          />
+      )}
+
+      <AlertModal 
+         isOpen={alertConfig.isOpen}
+         title="Transfer Blocked"
+         message={alertConfig.message}
+         onClose={() => setAlertConfig({ ...alertConfig, isOpen: false })}
+      />
     </div>
   );
 }

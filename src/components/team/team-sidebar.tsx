@@ -2,84 +2,76 @@
 
 import { TeamFanaticResponse } from '@/lib/schemas/team.schema';
 import { PlayerResponse } from '@/lib/schemas/player.schema';
-import { Trophy, TrendingUp, Users } from 'lucide-react';
+import { Trophy, TrendingUp, Users, ArrowUpCircle, Medal, Globe } from 'lucide-react';
 
 interface TeamSidebarProps {
   team: TeamFanaticResponse;
   players: PlayerResponse[];
-  latestScore?: number;
+  totalPoints?: number;
+  weeklyPoints?: number;
+  ranking?: number;
 }
 
-export function TeamSidebar({ team, players, latestScore = 0 }: TeamSidebarProps) {
-  const totalValue = players.reduce((acc, p) => acc + p.price, 0);
-  const avgForm = players.length > 0 
-    ? (players.reduce((acc, p) => acc + p.form, 0) / players.length).toFixed(1)
-    : 0;
+export function TeamSidebar({ team, players, totalPoints = 1240, weeklyPoints = 85, ranking = 12 }: TeamSidebarProps) {
+  const totalPlayers = players.length;
 
   return (
     <aside className="space-y-6">
-      <div className="glass-panel p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center text-3xl">
-            {team.badge ? <img src={team.badge} alt={team.team_name} className="w-12 h-12" /> : '⚽'}
+      <div className="glass-panel p-6 rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-md relative overflow-hidden">
+        {/* Glow effect */}
+        <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 blur-3xl rounded-full" />
+        
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-16 h-16 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-3xl shadow-xl overflow-hidden shrink-0">
+            {team.badge ? <img src={team.badge} alt={team.team_name} className="w-full h-full object-cover" /> : '⚽'}
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white">{team.team_name}</h2>
-            <p className="text-xs text-muted uppercase tracking-wider">Fantasy Manager</p>
+            <h2 className="text-xl font-bold text-white leading-tight">{team.team_name}</h2>
+            {team.favorite_team && <p className="text-xs text-primary font-bold uppercase tracking-wider">{team.favorite_team}</p>}
+            {team.nationality && <p className="text-xs text-muted flex items-center gap-1 mt-1"><Globe className="w-3 h-3" /> {team.nationality}</p>}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4">
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
+        <div className="grid grid-cols-1 gap-3 relative z-10">
+          <div className="flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-white/5 group hover:bg-white/5 transition-all">
             <div className="flex items-center gap-3">
-              <Trophy className="w-5 h-5 text-yellow-500" />
-              <span className="text-sm font-medium">Latest Score</span>
+              <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                <Trophy className="w-4 h-4 text-yellow-500" />
+              </div>
+              <span className="text-sm font-medium text-white/80">Total Points</span>
             </div>
-            <span className="text-lg font-bold text-white">{latestScore} pts</span>
+            <span className="text-xl font-black text-white">{totalPoints}</span>
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
+          <div className="flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-white/5 group hover:bg-white/5 transition-all">
             <div className="flex items-center gap-3">
-              <TrendingUp className="w-5 h-5 text-primary" />
-              <span className="text-sm font-medium">Avg Form</span>
+              <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                <ArrowUpCircle className="w-4 h-4 text-green-500" />
+              </div>
+              <span className="text-sm font-medium text-white/80">Puntos de la semana</span>
             </div>
-            <span className="text-lg font-bold text-white">{avgForm}</span>
+            <span className="text-xl font-black text-white">{weeklyPoints}</span>
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
+          <div className="flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-white/5 group hover:bg-white/5 transition-all">
             <div className="flex items-center gap-3">
-              <Users className="w-5 h-5 text-accent" />
-              <span className="text-sm font-medium">Squad Value</span>
+              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                <Medal className="w-4 h-4 text-primary" />
+              </div>
+              <span className="text-sm font-medium text-white/80">Ranking</span>
             </div>
-            <span className="text-lg font-bold text-white">${(totalValue / 1000000).toFixed(1)}M</span>
+            <span className="text-xl font-black text-white">#{ranking}</span>
           </div>
-        </div>
-      </div>
 
-      <div className="glass-panel p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-muted mb-4 px-1">Squad Balance</h3>
-        <div className="space-y-3">
-            {[
-                { label: 'Goalkeepers', current: players.filter(p => p.position_id === 1).length, max: 2 },
-                { label: 'Defenders', current: players.filter(p => p.position_id === 2).length, max: 5 },
-                { label: 'Midfielders', current: players.filter(p => p.position_id === 3).length, max: 5 },
-                { label: 'Forwards', current: players.filter(p => p.position_id === 4).length, max: 3 },
-            ].map((pos) => (
-                <div key={pos.label} className="space-y-1">
-                    <div className="flex justify-between text-xs">
-                        <span className="text-muted">{pos.label}</span>
-                        <span className={pos.current === pos.max ? "text-green-500 font-bold" : "text-white"}>
-                            {pos.current}/{pos.max}
-                        </span>
-                    </div>
-                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                        <div 
-                            className={`h-full transition-all duration-500 ${pos.current === pos.max ? 'bg-green-500' : 'bg-primary'}`}
-                            style={{ width: `${(pos.current / pos.max) * 100}%` }}
-                        />
-                    </div>
-                </div>
-            ))}
+          <div className="flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-white/5 group hover:bg-white/5 transition-all">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                <Users className="w-4 h-4 text-accent" />
+              </div>
+              <span className="text-sm font-medium text-white/80">Total Players</span>
+            </div>
+            <span className="text-xl font-black text-white">{totalPlayers} / 15</span>
+          </div>
         </div>
       </div>
     </aside>

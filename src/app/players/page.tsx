@@ -24,7 +24,7 @@ export default function PlayersPage() {
 
   const filteredPlayers = players.filter(p => 
     `${p.name} ${p.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.current_team.toLowerCase().includes(searchTerm.toLowerCase())
+    (p.current_team_name?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
   );
 
   return (
@@ -74,7 +74,7 @@ export default function PlayersPage() {
                 <h3 className="font-bold text-white group-hover:text-primary transition-colors">
                   {player.name} {player.last_name}
                 </h3>
-                <p className="text-xs text-muted">{player.current_team}</p>
+                <p className="text-xs text-muted">{player.current_team_name || player.current_team}</p>
               </div>
 
               <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">

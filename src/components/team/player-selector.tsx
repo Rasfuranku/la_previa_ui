@@ -30,7 +30,7 @@ export function PlayerSelector({ positionId, onSelect, onClose }: PlayerSelector
     fetchPlayers();
   }, [positionId]);
 
-  const filteredPlayers = players.filter(p => 
+  const filteredPlayers = players.filter(p =>
     `${p.name} ${p.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -50,7 +50,7 @@ export function PlayerSelector({ positionId, onSelect, onClose }: PlayerSelector
         <div className="p-4 border-b border-white/10">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-            <input 
+            <input
               type="text"
               placeholder="Search by name..."
               className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
@@ -72,11 +72,11 @@ export function PlayerSelector({ positionId, onSelect, onClose }: PlayerSelector
                 <div key={player.id} className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-primary/30 transition-all group">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-lg font-bold text-primary">
-                        {player.picture ? <img src={player.picture} alt={player.name} className="w-full h-full object-cover rounded-xl" /> : player.name[0]}
+                      {player.picture ? <img src={player.picture} alt={player.name} className="w-full h-full object-cover rounded-xl" /> : player.name[0]}
                     </div>
                     <div>
                       <h3 className="font-bold text-white">{player.name} {player.last_name}</h3>
-                      <p className="text-[10px] text-muted uppercase font-mono">{player.current_team}</p>
+                      <p className="text-[10px] text-muted uppercase font-mono">{player.current_team_name || player.current_team}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
